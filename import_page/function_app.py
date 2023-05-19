@@ -1,12 +1,14 @@
 import os
 import logging
 import pinecone
-import requests
 import azure.functions as func
 from langchain.vectorstores import Pinecone
 from langchain.document_loaders import UnstructuredURLLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
+
+
+app = func.FunctionApp()
 
 index_name = 'functions'
 
@@ -15,7 +17,9 @@ pinecone.init(
     environment=os.getenv('PINECONE_ENV')
 )
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
+@app.function_name(name='importpage')
+@app.route(route='importpage')
+def main(req):
 
     try:
         req_body = req.get_json()
