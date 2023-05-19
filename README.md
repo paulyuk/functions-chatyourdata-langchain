@@ -11,7 +11,7 @@ This repo will have a implementation of the chat your data scenario using Azure 
 2) [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4%2Cmacos%2Ccsharp%2Cportal%2Cbash#install-the-azure-functions-core-tools)
 3) [Azure OpenAPI API key, endpoint, and deployment](https://portal.azure.com) 
 4) [Pinecone]({)https://docs.pinecone.io/docs/quickstart)
-5) Add this local.settings.json file to the `ask` function folder to simplify local development and include Key from step 3
+5) Add this local.settings.json file to the current function folder to simplify local development and include Key from step 3
 ```json
 {
   "IsEncrypted": false,
@@ -22,18 +22,7 @@ This repo will have a implementation of the chat your data scenario using Azure 
     "AZURE_OPENAI_KEY": "...",
     "AZURE_OPENAI_ENDPOINT": "https://<service_name>.openai.azure.com/",
     "AZURE_OPENAI_SERVICE": "...",
-    "AZURE_OPENAI_CHATGPT_DEPLOYMENT": "..."
-  }
-}
-```
-6) Add this local.settings.json file to the `import_page` function folder to simplify local development and include Key from step 3
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "python",
-    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AZURE_OPENAI_CHATGPT_DEPLOYMENT": "...",
     "PINECONE_API_KEY": "",
     "PINECONE_ENV": ""
   }
@@ -41,22 +30,16 @@ This repo will have a implementation of the chat your data scenario using Azure 
 ```
 
 ### Using Functions CLI
-#### Import Page Function
+
 1) Open a new terminal and do the following:
 
 ```bash
-cd import_page
 pip3 install -r requirements.text
 func start
 ```
 2) Using your favorite REST client, e.g. [RestClient in VS Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), PostMan, curl, make a post.  `test.http` has been provided to run this quickly.   
 
-Terminal:
-```bash
-curl -i -X POST http://localhost:7071/api/importpage/ \
-  -H "Content-Type: text/json" \
-  --data-binary "@testdata.json"
-```
+#### Import Page Function
 
 testdata.json
 ```json
@@ -65,7 +48,7 @@ testdata.json
 }
 ```
 
-test.http
+test_importpage.http
 ```bash
 
 POST http://localhost:7071/api/importpage HTTP/1.1
@@ -77,16 +60,8 @@ content-type: application/json
 ```
 
 #### Ask Function
-1) Open a new terminal and do the following:
 
-```bash
-cd ask
-pip3 install -r requirements.text
-func start
-```
-2) Using your favorite REST client, e.g. [RestClient in VS Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client), PostMan, curl, make a post.  `test.http` has been provided to run this quickly.   
-
-test.http
+test_ask.http
 ```bash
 
 POST http://localhost:7071/api/ask HTTP/1.1
@@ -99,7 +74,7 @@ content-type: application/json
 
 ## Source Code
 
-The key code that makes this work is as follows in `./ask/function_app.py`.  You can customize this or learn more snippets using the [LangChain Quickstart Guide](https://python.langchain.com/en/latest/getting_started/getting_started.html).
+The key code that makes this work is as follows in `function_app.py`.  You can customize this or learn more snippets using the [LangChain Quickstart Guide](https://python.langchain.com/en/latest/getting_started/getting_started.html).
 
 ```python
 index_name = 'functions'
