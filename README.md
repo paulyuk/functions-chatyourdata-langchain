@@ -41,13 +41,6 @@ func start
 
 #### Import Page Function
 
-testdata.json
-```json
-{
-    "url": "https://learn.microsoft.com/en-us/azure/azure-functions/functions-premium-plan"
-}
-```
-
 test_importpage.http
 ```bash
 
@@ -61,12 +54,28 @@ content-type: application/json
 
 #### Ask Function
 
+REST Client:
+
 test_ask.http
 ```bash
 
 POST http://localhost:7071/api/ask HTTP/1.1
 content-type: application/json
 
+{
+    "question": "does function timeout depend on SKU?"
+}
+```
+
+Terminal:
+```bash
+curl -i -X POST http://localhost:7071/api/ask/ \
+  -H "Content-Type: text/json" \
+  --data-binary "@testdata.json"
+```
+
+testdata.json
+```json
 {
     "question": "does function timeout depend on SKU?"
 }
